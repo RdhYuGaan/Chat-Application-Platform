@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Login from './Login'
 import Chat from './Chat';
 
-
-
-
-const Main = (socket) => {
+ 
+const Main = ({socket}) => {
     const [newUser, setNewUser] = useState("");
     const [user, setUser] = useState({});
     const [users, setUsers] = useState([]);
@@ -50,7 +48,7 @@ const Main = (socket) => {
 
     function logNewUser() {
         socket.auth = { userName: newUser };
-        socket.conncet();
+        socket.connect();
 
     }
     function sendMessage() {
