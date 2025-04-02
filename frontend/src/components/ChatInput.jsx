@@ -10,11 +10,8 @@ const ChatInput = ({ message, sendMessage, setMessage }) => {
           name="message"
           value={message || ""} // ✅ Prevents [object Object] error
           placeholder="Type Your Message..."
-          onChange={({currentTarget:input}) => setMessage(input.value)} // ✅ Ensure it's a string
-          onKeyPress={(e) => e.code=== "Enter" ? sendMessage(): null} // ✅ Prevents [object Object] error
-        />   
-            
-          }}
+          onChange={({ currentTarget: input }) => setMessage(input.value)} // ✅ Ensure it's a string
+          onKeyPress={(e) => (e.code === "Enter" ? sendMessage() : null)} 
         />
         <button className="btn btn-info">Send</button>
       </div>

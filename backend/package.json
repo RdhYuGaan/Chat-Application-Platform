@@ -9,7 +9,13 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["chat", "backend", "express", "socket.io", "mysql"],
+  "keywords": [
+    "chat",
+    "backend",
+    "express",
+    "socket.io",
+    "mysql"
+  ],
   "author": "Radith Yugan Wijerathna",
   "license": "ISC",
   "dependencies": {
@@ -19,6 +25,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.0",
+    "react-scrollable-feed": "^2.0.2",
     "socket.io": "^4.8.1",
     "uuid": "^9.0.1"
   },

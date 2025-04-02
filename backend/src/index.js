@@ -45,6 +45,7 @@ io.on("connection", async (socket) => {
   });
 
   // new message event
+  const messages=[]
   socket.on("new message", (message) => {
     socket.broadcast.emit("new message", {
       userId: socket.userId,
