@@ -28,10 +28,19 @@ const Main = (socket) => {
         socket.on("session", ({ userId, username }) => {
             setUser({ userId, username });
         });
-        socket.on("user connected", ({ userId, username })=> {
-            const newMessage = {type: "userStatus", userId, username};
+        socket.on("user connected", ({ userId, username }) => {
+            const newMessage = { type: "userStatus", userId, username };
             setMessages([...messages, newMessage]);
-        })
+        });
+        socket.on("new message", ({ userId, username, message }) => {
+            const newMessage = {
+                type: "message",
+                userId: userId,
+                username: user.username,
+                message
+            };
+            setMessages([...messages, newMessage]);
+        });
     }, [socket, messages]);
 
 
@@ -49,7 +58,7 @@ const Main = (socket) => {
         const newMessage = {
             type: "message",
             userId: user.userId,
-            username:user.username,
+            username: user.username,
             message,
         };
         setMessages([...messages, newMessage]);
@@ -65,6 +74,7 @@ const Main = (socket) => {
                     user={user}
                     message={message}
                     messages={messages}
+                    setMessage={setMessage}
                     sendMessage={sendMessage} />
             ) : (
                 <Login
