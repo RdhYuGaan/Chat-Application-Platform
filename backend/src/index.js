@@ -1,28 +1,33 @@
-import { createServer } from "http";
-import { Server } from "socket.io";
-import { v4 as uuidv4 } from "uuid";
+import { createServer } from "http"; // Import HTTP module to create the server
+import { Server } from "socket.io"; // Import Socket.IO to enable real-time communication
+import { v4 as uuidv4 } from "uuid"; // Import uuid for generating unique user IDs
 
+// Create an HTTP server
 const httpServer = createServer();
+
+// Create a new instance of Socket.IO server with CORS configuration
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173", // Adjust this if your frontend URL changes
-    methods: ["GET", "POST"],
+    origin: "http://localhost:5173", // Frontend URL for CORS (adjust this if the frontend URL changes)
+    methods: ["GET", "POST"], // Allowing GET and POST methods
   },
 });
 
+// Middleware for handling user authentication and socket setup
 io.use((socket, next) => {
-  const username = socket.handshake.auth.username;
+  const username = socket.handshake.auth.username; // Get username from the handshake
   if (!username) {
-    return next(new Error("Invalid username"));
+    return next(new Error("Invalid username")); // Reject the connection if no username is provided
   }
 
-  socket.username = username;
-  socket.userId = uuidv4();
-  next();
+  socket.username = username; // Set the username on the socket object
+  socket.userId = uuidv4(); // Generate and assign a unique user ID
+  next(); // Proceed to the next middleware or the main connection event
 });
 
+// Handle new socket connections
 io.on("connection", (socket) => {
-  // Get all connected users
+  // Create an array to store all connected users
   const users = [];
   io.of("/").sockets.forEach((s) => {
     users.push({
@@ -31,10 +36,10 @@ io.on("connection", (socket) => {
     });
   });
 
-  // Emit the users' data
+  // Emit the list of connected users to the newly connected user
   socket.emit("users", users);
 
-  // Emit the connected user's details
+  // Emit the current user's session details
   socket.emit("session", {
     userId: socket.userId,
     username: socket.username,
@@ -46,7 +51,7 @@ io.on("connection", (socket) => {
     username: socket.username,
   });
 
-  // Handle new message
+  // Handle incoming messages and broadcast them to other users
   socket.on("new message", (message) => {
     socket.broadcast.emit("new message", {
       userId: socket.userId,
@@ -56,7 +61,7 @@ io.on("connection", (socket) => {
   });
 });
 
+// Start the server on the specified port (default to 4000)
 httpServer.listen(process.env.PORT || 4000, () => {
   console.log("Server running on port", process.env.PORT || 4000);
 });
-code .Errorgit 

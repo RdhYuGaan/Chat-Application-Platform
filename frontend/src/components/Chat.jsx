@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Typography, Avatar, Paper, TextField, Button, useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Avatar,
+  Paper,
+  TextField,
+  Button,
+  useMediaQuery,
+} from "@mui/material";
 import ScrollableFeed from "react-scrollable-feed";
 
 const Chat = ({ user, message, messages, setMessage, sendMessage }) => {
@@ -25,10 +33,12 @@ const Chat = ({ user, message, messages, setMessage, sendMessage }) => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant={isMobile ? "subtitle1" : "h6"}>Welcome, {user.username}</Typography>
+        <Typography variant={isMobile ? "subtitle1" : "h6"}>
+          Welcome, {user.username}
+        </Typography>
       </Box>
 
-      {/* Chat Messages */}
+      {/* Chat Messages Section */}
       <Box
         sx={{
           flex: 1,
@@ -39,6 +49,7 @@ const Chat = ({ user, message, messages, setMessage, sendMessage }) => {
       >
         <ScrollableFeed>
           {messages.map((message, index) => {
+            // Handle join/leave system messages
             if (message.type === "userStatus") {
               return (
                 <Typography
@@ -69,6 +80,7 @@ const Chat = ({ user, message, messages, setMessage, sendMessage }) => {
                     marginBottom: isMobile ? 1 : 2,
                   }}
                 >
+                  {/* User Avatar */}
                   <Avatar
                     src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                     alt={message.username}
@@ -78,6 +90,8 @@ const Chat = ({ user, message, messages, setMessage, sendMessage }) => {
                       margin: isOwnMessage ? "0 0 0 8px" : "0 8px 0 0",
                     }}
                   />
+
+                  {/* Message Bubble */}
                   <Paper
                     elevation={3}
                     sx={{
@@ -88,11 +102,17 @@ const Chat = ({ user, message, messages, setMessage, sendMessage }) => {
                   >
                     <Typography
                       variant="subtitle2"
-                      sx={{ fontWeight: "bold", fontSize: isMobile ? "0.8rem" : "1rem" }}
+                      sx={{
+                        fontWeight: "bold",
+                        fontSize: isMobile ? "0.8rem" : "1rem",
+                      }}
                     >
                       {isOwnMessage ? "You" : message.username}
                     </Typography>
-                    <Typography variant="body1" sx={{ fontSize: isMobile ? "0.9rem" : "1rem" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{ fontSize: isMobile ? "0.9rem" : "1rem" }}
+                    >
                       {message.message}
                     </Typography>
                     <Typography
@@ -104,7 +124,7 @@ const Chat = ({ user, message, messages, setMessage, sendMessage }) => {
                         fontSize: isMobile ? "0.7rem" : "0.8rem",
                       }}
                     >
-                      12:00 AM
+                      12:00 AM {/* Placeholder — you can make this dynamic later */}
                     </Typography>
                   </Paper>
                 </Box>
@@ -114,7 +134,7 @@ const Chat = ({ user, message, messages, setMessage, sendMessage }) => {
         </ScrollableFeed>
       </Box>
 
-      {/* Chat Input */}
+      {/* Chat Input Field */}
       <Box
         sx={{
           padding: isMobile ? 1 : 2,

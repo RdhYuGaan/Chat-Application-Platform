@@ -1,15 +1,18 @@
 import React from 'react'
- const ChatContainer = ( props) => {
+
+const ChatContainer = (props) => {
   return (
-    <div className="absolute top-10 left-10 text-2xl font-semibold">
-            <div className="card border-2 border-info w-100">
-                <div className="row" style={{ height: "95vh" }}>
-                    <div className="d-flex flex-col col-12 col-lg-12 col-xl-12">
-                        {props.children}
-                    </div>
-                </div>
-            </div> {/* Closing div for the card */}
+    // Main wrapper with padding and positioning
+    <div className="absolute top-10 left-10 text-2xl font-semibold w-full max-w-screen-lg">
+      {/* Card container with border */}
+      <div className="border-2 border-blue-500 rounded-lg shadow-md bg-white w-full h-[95vh]">
+        {/* Flex column layout for responsiveness */}
+        <div className="flex flex-col w-full h-full">
+          {props.children}
         </div>
+      </div>
+    </div>
   );
-}
-export default ChatContainer
+};
+
+export default ChatContainer;
