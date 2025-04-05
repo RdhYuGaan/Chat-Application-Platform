@@ -8,12 +8,14 @@ const ChatInput = ({ message, sendMessage, setMessage }) => {
           type="text"
           className="form-control"
           name="message"
-          value={message || ""} // ✅ Prevents [object Object] error
+          value={message || ""}
           placeholder="Type Your Message..."
-          onChange={({ currentTarget: input }) => setMessage(input.value)} // ✅ Ensure it's a string
-          onKeyPress={(e) => (e.code === "Enter" ? sendMessage() : null)} 
+          onChange={({ currentTarget: input }) => setMessage(input.value)}
+          onKeyPress={(e) => (e.code === "Enter" ? sendMessage() : null)}
         />
-        <button className="btn btn-info">Send</button>
+        <button className="btn btn-info" onClick={sendMessage}>
+          Send
+        </button>
       </div>
     </div>
   );

@@ -2,12 +2,10 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
 
-
-
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173", // Adjust this if your frontend URL changes
     methods: ["GET", "POST"],
   },
 });
@@ -15,7 +13,7 @@ const io = new Server(httpServer, {
 io.use((socket, next) => {
   const username = socket.handshake.auth.username;
   if (!username) {
-    return next(new Error("Invalied username"));
+    return next(new Error("Invalid username"));
   }
 
   socket.username = username;
@@ -23,32 +21,32 @@ io.use((socket, next) => {
   next();
 });
 
-io.on("connection", async (socket) => {
-  // all connected users
+io.on("connection", (socket) => {
+  // Get all connected users
   const users = [];
-  for (let [id, socket] of io.of("/").sockets) {
+  io.of("/").sockets.forEach((s) => {
     users.push({
-      userId: socket.userId,
-      username: socket.username,
+      userId: s.userId,
+      username: s.username,
     });
-  }
+  });
 
-  //all users event
+  // Emit the users' data
   socket.emit("users", users);
 
-  // connect user details event
+  // Emit the connected user's details
   socket.emit("session", {
     userId: socket.userId,
     username: socket.username,
   });
-  //new user event
+
+  // Notify all other users that a new user has connected
   socket.broadcast.emit("user connected", {
     userId: socket.userId,
     username: socket.username,
   });
 
-  // new message event
-  const messages=[]
+  // Handle new message
   socket.on("new message", (message) => {
     socket.broadcast.emit("new message", {
       userId: socket.userId,
@@ -61,3 +59,4 @@ io.on("connection", async (socket) => {
 httpServer.listen(process.env.PORT || 4000, () => {
   console.log("Server running on port", process.env.PORT || 4000);
 });
+code .Errorgit 
